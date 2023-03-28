@@ -1,7 +1,7 @@
 import type { Page } from "puppeteer";
 
 const authenticate = async (page: Page, email: string, password: string) => {
-  await page.goto("https://www.hardgamers.com.ar/");
+  await page.goto("https://www.hardgamers.com.ar");
 
   const authenticated = await page.evaluate(() => {
     const loginElement = document.querySelector("#user-name h2");

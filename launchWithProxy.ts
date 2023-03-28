@@ -9,7 +9,7 @@ const launchWithProxy = async (proxy: string) => {
   });
   const page = await browser.newPage();
 
-  // Authenticate the user
+  // Authenticate user
   await authenticate(page, "lautaroef@gmail.com", "maj8iJjtdt88MhJ");
 
   // Get all the products

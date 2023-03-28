@@ -7,7 +7,7 @@ interface Product {
 
 const getAllProducts = async (page: Page) => {
   await page.goto(
-    "https://www.hardgamers.com.ar/builder/custom/cpu?text=intel%20i7&products%3A=on&page=7&limit=18&minPrice=94900&maxPrice=1196099"
+    "https://www.hardgamers.com.ar/builder/custom/cpu?text=intel%20i7&products%3A=on&page=7&limit=18&minPrice=94900&maxPrice=1196098"
   );
 
   // Wait for the products to load

@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from "axios";
 
 // Define function to get proxy
 const getProxy = async (proxyUrl: string, apiKey: string, proxyParams: object) => {
