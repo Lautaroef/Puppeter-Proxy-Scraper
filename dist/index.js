@@ -1,30 +1,34 @@
 "use strict";
-// import launchWithProxy from "./launchWithProxy";
-// import { getProxy } from "./getProxy";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const puppeteer_extra_1 = __importDefault(require("puppeteer-extra"));
-// add stealth plugin and use defaults (all evasion techniques)
+const auth_1 = require("./auth");
+const getProducts_1 = require("./getProducts");
 const puppeteer_extra_plugin_stealth_1 = __importDefault(require("puppeteer-extra-plugin-stealth"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+// add stealth plugin and use defaults (all evasion techniques)
 puppeteer_extra_1.default.use((0, puppeteer_extra_plugin_stealth_1.default)());
-// puppeteer usage as normal
-puppeteer_extra_1.default
-    .launch({
-    headless: false,
-    executablePath: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-    userDataDir: "C:\\Users\\Usuario\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 3",
-})
-    .then(async (browser) => {
-    console.log("Running tests..");
+(async () => {
+    const browser = await puppeteer_extra_1.default.launch({
+        headless: false,
+        executablePath: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+        userDataDir: "C:\\Users\\Usuario\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 3",
+    });
     const page = await browser.newPage();
-    await page.goto("https://bot.sannysoft.com");
-    new Promise((r) => setTimeout(r, 5000));
-    await page.screenshot({ path: "./testResult-2.png", fullPage: true });
+    // Authenticate the user
+    const email = process.env.HARDGAMERS_EMAIL;
+    const password = process.env.HARDGAMERS_PASSWORD;
+    console.log(email, password);
+    await (0, auth_1.authenticate)(page, email, password);
+    // Get the products
+    const products = await (0, getProducts_1.getProducts)(page);
+    console.log(products);
     await browser.close();
-    console.log(`All done, check the screenshot. ✨`);
-});
+})();
+// Code to launch Puppeteer with a proxy
 // // Proxy config | https://www.proxyrotator.com/app/rotating-proxy-api/7/
 // const proxyUrl = "http://falcon.proxyrotator.com:51337";
 // const apiKey = process.env.PROXY_ROTATOR_API_KEY as string;

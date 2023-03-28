@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllProducts = void 0;
-const getAllProducts = async (page) => {
+exports.getProducts = void 0;
+const promises_1 = __importDefault(require("fs/promises"));
+const getProducts = async (page) => {
     await page.goto("https://www.hardgamers.com.ar/builder/custom/cpu?text=intel%20i7&products%3A=on&page=7&limit=18&minPrice=94900&maxPrice=1196098");
     // Wait for the products to load
     await page.waitForSelector(".row.white-background");
@@ -18,7 +22,9 @@ const getAllProducts = async (page) => {
         });
         return productList;
     });
+    // Write the products array to a JSON file
+    await promises_1.default.writeFile("products.json", JSON.stringify(products));
     return products;
 };
-exports.getAllProducts = getAllProducts;
-//# sourceMappingURL=products.js.map
+exports.getProducts = getProducts;
+//# sourceMappingURL=getProducts.js.map

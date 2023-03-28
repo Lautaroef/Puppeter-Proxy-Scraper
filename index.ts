@@ -1,7 +1,9 @@
 import puppeteer from "puppeteer-extra";
 import { authenticate } from "./auth";
-import { getAllProducts } from "./products";
+import { getProducts } from "./getProducts";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
+import dotenv from "dotenv";
+dotenv.config();
 
 // add stealth plugin and use defaults (all evasion techniques)
 puppeteer.use(StealthPlugin());
@@ -16,17 +18,19 @@ puppeteer.use(StealthPlugin());
   const page = await browser.newPage();
 
   // Authenticate the user
-  await authenticate(page, "lautaroef@gmail.com", "maj8iJjtdt88MhJ");
+  const email = process.env.HARDGAMERS_EMAIL as string;
+  const password = process.env.HARDGAMERS_PASSWORD as string;
+  await authenticate(page, email, password);
 
-  // Get all the products
-  const products = await getAllProducts(page);
+  // Get the products
+  const products = await getProducts(page);
 
   console.log(products);
 
   await browser.close();
 })();
 
-// ! Code to launch Puppeteer with a proxy
+// Code to launch Puppeteer with a proxy
 // // Proxy config | https://www.proxyrotator.com/app/rotating-proxy-api/7/
 // const proxyUrl = "http://falcon.proxyrotator.com:51337";
 // const apiKey = process.env.PROXY_ROTATOR_API_KEY as string;

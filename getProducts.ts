@@ -1,11 +1,12 @@
 import type { Page } from "puppeteer";
+import fs from "fs/promises";
 
 interface Product {
   name: string;
   price: number;
 }
 
-const getAllProducts = async (page: Page) => {
+const getProducts = async (page: Page) => {
   await page.goto(
     "https://www.hardgamers.com.ar/builder/custom/cpu?text=intel%20i7&products%3A=on&page=7&limit=18&minPrice=94900&maxPrice=1196098"
   );
@@ -31,7 +32,10 @@ const getAllProducts = async (page: Page) => {
     return productList;
   });
 
+  // Write the products array to a JSON file
+  await fs.writeFile("products.json", JSON.stringify(products));
+
   return products as Product[];
 };
 
-export { getAllProducts };
+export { getProducts };
